@@ -34,7 +34,7 @@ namespace ActorRepositoryLib.Tests
             Assert.ThrowsException<ArgumentException>(() => Actor.ValidateYear());
         }
 
-        // Now, im testing the first validate method,  expecting errors.
+        // Now, im testing the first validate method, expecting errors.
 
         [TestMethod()]
         
