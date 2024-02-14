@@ -32,7 +32,7 @@ namespace ActorRepositoryLib
         {
             if (Name == null)
             {
-                throw new ArgumentException("Name cant be null.");
+                throw new ArgumentNullException("Name cant be null.");
             }
 
             if(Name.Length < 4)
