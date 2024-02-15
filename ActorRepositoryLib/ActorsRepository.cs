@@ -21,6 +21,35 @@ namespace ActorRepositoryLib
             return _actors;
         }
 
+        // birthYearBefore search, while also handling null values
+        public IEnumerable<Actor> Get(int? birthYearBefore)
+        {
+            if (birthYearBefore.HasValue)
+            {
+                return _actors.Where(a => a.BirthYear < birthYearBefore.Value).ToList();
+            }
+            else
+            {
+                return _actors;
+            }
+           
+        
+        }
+
+        // birthYearAfter search (commented out cuz it wont take 2 gets?? ugh)
+        //public IEnumerable<Actor> Get(int? birthYearAfter)
+        //{
+        //    if (birthYearAfter.HasValue)
+        //    {
+        //        return _actors.Where(a => a.BirthYear > birthYearAfter.Value).ToList();
+        //    }
+        //    else
+        //    {
+        //        return _actors;
+        //    }
+           
+        //}
+
         // Adds an Actor to the repository og den assigner en unique ID
         public Actor Add(Actor actor)
         {
