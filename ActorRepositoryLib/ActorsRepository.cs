@@ -12,43 +12,41 @@ namespace ActorRepositoryLib
         private List<Actor> _actors = new List<Actor>();
 
         //Property
-        private int _nextId = 1;
+        private int _nextId = 0;
 
 
         // Get(), returnerer alle Actor objekter i listen
-        public IEnumerable<Actor> Get()
+        // Optional parameters  
+        public IEnumerable<Actor> Get(int? birthYear=null, string? name=null, string? orderBy=null)
         {
-            return _actors;
+            IQueryable<Actor> query = _actors.AsQueryable();
+
+            if(birthYear != null)
+            {
+                query = query.Where(a => a.BirthYear == birthYear);
+            }
+            if(name != null)
+            {
+                query = query.Where(a => a.Name == name);
+            }
+            if(orderBy != null)
+            {
+                query = orderBy switch
+                {
+                    "name" => query.OrderBy(a => a.Name),
+                    "birthYear" => query.OrderBy(a => a.BirthYear),
+                    //Default value
+                    _ => query
+                };
+            }
+
+            return query;
         }
 
-        // birthYearBefore search, while also handling null values
-        public IEnumerable<Actor> Get(int? birthYearBefore)
+        public Actor GetId(int id)
         {
-            if (birthYearBefore.HasValue)
-            {
-                return _actors.Where(a => a.BirthYear < birthYearBefore.Value).ToList();
-            }
-            else
-            {
-                return _actors;
-            }
-           
-        
+            return _actors[id];
         }
-
-        // birthYearAfter search (commented out cuz it wont take 2 gets?? ugh)
-        //public IEnumerable<Actor> Get(int? birthYearAfter)
-        //{
-        //    if (birthYearAfter.HasValue)
-        //    {
-        //        return _actors.Where(a => a.BirthYear > birthYearAfter.Value).ToList();
-        //    }
-        //    else
-        //    {
-        //        return _actors;
-        //    }
-           
-        //}
 
         // Adds an Actor to the repository og den assigner en unique ID
         public Actor Add(Actor actor)
@@ -58,10 +56,9 @@ namespace ActorRepositoryLib
             return actor;
         }
 
-
         // Deletes the Author object with the specified ID
         // And returns the deleted actor object or null if no actor object with that ID exists.
-        public Actor Delete(int id)
+        public Actor? Delete(int id)
         {
             var actor = _actors.FirstOrDefault(a => a.Id == id);
             if (actor != null)
@@ -71,20 +68,19 @@ namespace ActorRepositoryLib
             }
 
             return null;
-            
         }
 
         // Updates the Actor object with the specified ID with the data also
         // Returns the updated Actor object, or null if no Actor object was found
-        public Actor Update(int id, Actor data)
+        public Actor? Update(int id, Actor data)
         {
             var actor = _actors.FirstOrDefault(a => a.Id == id);
             if(actor != null)
             {
-                actor.Name = data.Name;
-                actor.BirthYear = data.BirthYear;
+                _actors[id] = data;
                 return actor;
             }
+
             return null;
         }
     }
