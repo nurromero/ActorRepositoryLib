@@ -1,51 +1,52 @@
-﻿//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using ActorRepositoryLib;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ActorRepositoryLib;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Numerics;
 
-//namespace ActorRepositoryLib.Tests
-//{
-//    [TestClass()]
-//    public class ActorTests
-//    {
-   
-//        // First, im testing the Name validation test, where im NOT expecting an error.
-//        [TestMethod()]
-//        public void ValidateNameTest_NameIsValid()
-//        {
-//            //Arrange
-//            var Actor = new Actor(1, "Sammy", 1985);
+namespace ActorRepositoryLib.Tests
+{
+    [TestClass()]
+    public class ActorTests
+    {
 
-//            //Act & Assert
-//            Actor.ValidateName();
-//        }
+        // First, im testing the Name validation test, where im NOT expecting an error.
+        [TestMethod()]
+        public void ValidateNameTest_NameIsValid()
+        {
+            //Arrange
+            Actor actor1 = new Actor { Id = 1, Name = "Sammy", BirthYear = 2000 };
 
-//        // Testing the Validate Year test, excepting an error
-//        [TestMethod()]
-//        public void ValidateYearTest_YearIsWrong()
-//        {
-//            //Arrange
-//            var Actor = new Actor(1, "John", 1815);
+            //Act & Assert
+            actor1.ValidateName();
+        }
 
-//            // Act & Assert
-//            Assert.ThrowsException<ArgumentException>(() => Actor.ValidateYear());
-//        }
+        // Testing the Validate Year test, excepting an error
+        [TestMethod()]
+        public void ValidateYearTest_YearIsWrong()
+        {
+            //Arrange
+            Actor actor2 = new Actor { Id = 1, Name = "Emily Thorne", BirthYear = 1985 };
 
-//        // Now, im testing the first validate method, expecting errors.
+            // Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => actor2.ValidateYear());
+        }
 
-//        [TestMethod()]
-        
-//        public void ValidateNameTest_ShouldThrowException()
-//        {
-//            //Arrange
-//            var Actor = new Actor(1, "Jo", 2001);
+        // Now, im testing the first validate method, expecting errors.
 
-//            // Act & Assert
-//            Assert.ThrowsException<ArgumentException>(() => Actor.ValidateName());
-//        }
+        [TestMethod()]
 
-//    }
-//}
+        public void ValidateNameTest_ShouldThrowException()
+        {
+            //Arrange
+            Actor actor3 = new Actor { Id = 1, Name = "David Clarke", BirthYear = 1970 };
+
+            // Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => actor3.ValidateName());
+        }
+
+    }
+}
